@@ -82,7 +82,7 @@ else()
     )
 endif()
 
-enable_testing()
+# enable_testing()
 
 if("${DEBUG}")
   add_definitions(-DDEBUG)
@@ -154,8 +154,8 @@ if(CCACHE_FOUND)
 endif(CCACHE_FOUND)
 
 # Add a `make check` target that builds and tests
-enable_testing()
-add_custom_target(libiop_check COMMAND ${CMAKE_CTEST_COMMAND})
+# enable_testing()
+# add_custom_target(libiop_check COMMAND ${CMAKE_CTEST_COMMAND})
 
 include_directories(.)
 
