@@ -1,8 +1,8 @@
 add_subdirectory(gtest EXCLUDE_FROM_ALL)
 
-option(BENCHMARK_ENABLE_GTEST_TESTS "" OFF)
-set(BENCHMARK_ENABLE_TESTING OFF)
-add_subdirectory(benchmark)
+# option(BENCHMARK_ENABLE_GTEST_TESTS "" OFF)
+# set(BENCHMARK_ENABLE_TESTING OFF)
+# add_subdirectory(benchmark)
 
 include_directories(ate-pairing/include)
 include_directories(xbyak)

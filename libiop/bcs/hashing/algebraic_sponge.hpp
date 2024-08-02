@@ -41,7 +41,7 @@ class algebraic_sponge
     void absorb_internal(const std::vector<FieldT> &new_input, size_t begin_index);
     void squeeze_internal(std::vector<FieldT> &output, size_t begin_index);
 
-    algebraic_sponge<FieldT>(const size_t rate, const size_t capacity);
+    algebraic_sponge(const size_t rate, const size_t capacity);
     public:
     const size_t rate_;
     const size_t capacity_;

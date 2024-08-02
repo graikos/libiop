@@ -36,8 +36,8 @@ protected:
     vanishing_polynomial<FieldT> projection_into_row_vp_;
     vanishing_polynomial<FieldT> projection_into_col_vp_;
 public:
-    bivariate_embedding<FieldT>() {};
-    bivariate_embedding<FieldT>(const field_subset<FieldT> &table_domain,
+    bivariate_embedding() {};
+    bivariate_embedding(const field_subset<FieldT> &table_domain,
         const field_subset<FieldT> &row_domain, const field_subset<FieldT> &col_domain);
     FieldT project_to_row(const FieldT &x) const;
     FieldT project_to_col(const FieldT &x) const;

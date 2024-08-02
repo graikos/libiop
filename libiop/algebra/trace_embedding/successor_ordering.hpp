@@ -42,11 +42,11 @@ protected:
     std::shared_ptr<polynomial_base<FieldT>> composed_poly_;
 
     /** Internal constructor for composition */
-    multiplicative_successor_polynomial<FieldT>(const FieldT &generator,
+    multiplicative_successor_polynomial(const FieldT &generator,
         const std::shared_ptr<polynomial_base<FieldT>> composed_poly);
 public:
-    multiplicative_successor_polynomial<FieldT>() {};
-    multiplicative_successor_polynomial<FieldT>(const FieldT &generator);
+    multiplicative_successor_polynomial() {};
+    multiplicative_successor_polynomial(const FieldT &generator);
     FieldT evaluation_at_point(const FieldT &eval_point) const;
     std::vector<FieldT> evaluations_over_field_subset(const field_subset<FieldT> &S) const;
     polynomial<FieldT> expand_as_polynomial() const;
@@ -64,8 +64,8 @@ protected:
     field_subset<FieldT> domain_;
     multiplicative_successor_polynomial<FieldT> successor_polynomial_;
 public:
-    multiplicative_successor_ordering<FieldT>() {};
-    multiplicative_successor_ordering<FieldT>(const field_subset<FieldT> &domain);
+    multiplicative_successor_ordering() {};
+    multiplicative_successor_ordering(const field_subset<FieldT> &domain);
     FieldT first_elem() const;
     FieldT next_elem(const FieldT &cur_elem) const;
 
@@ -93,8 +93,8 @@ protected:
     FieldT L_0_coefficient_;
     FieldT L_1_coefficient_;
 public:
-    additive_successor_polynomial<FieldT>() {};
-    additive_successor_polynomial<FieldT>(const affine_subspace<FieldT> &S);
+    additive_successor_polynomial() {};
+    additive_successor_polynomial(const affine_subspace<FieldT> &S);
     FieldT evaluation_at_point(const FieldT &eval_point) const;
 
     std::vector<FieldT> evaluations_over_field_subset(const field_subset<FieldT> &U) const;
@@ -113,8 +113,8 @@ protected:
     affine_subspace<FieldT> subspace_;
     additive_successor_polynomial<FieldT> successor_polynomial_;
 public:
-    additive_successor_ordering<FieldT>() {};
-    additive_successor_ordering<FieldT>(const field_subset<FieldT> &domain);
+    additive_successor_ordering() {};
+    additive_successor_ordering(const field_subset<FieldT> &domain);
     FieldT first_elem() const;
     FieldT next_elem(const FieldT &cur_elem) const;
 
@@ -128,7 +128,7 @@ protected:
     multiplicative_successor_ordering<FieldT> multiplicative_ordering_;
     additive_successor_ordering<FieldT> additive_ordering_;
 public:
-    successor_ordering<FieldT>(const field_subset<FieldT> &domain);
+    successor_ordering(const field_subset<FieldT> &domain);
     FieldT first_elem() const;
     FieldT next_elem(const FieldT &cur_elem) const;
 

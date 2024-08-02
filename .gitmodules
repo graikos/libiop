@@ -1,6 +1,3 @@
-[submodule "depends/benchmark"]
-	path = depends/benchmark
-	url = https://github.com/google/benchmark.git
 [submodule "depends/gtest"]
 	path = depends/gtest
 	url = https://github.com/google/googletest.git
