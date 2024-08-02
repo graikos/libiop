@@ -2,9 +2,9 @@
 #include <gtest/gtest.h>
 #include <vector>
 
-#include <libff/algebra/fields/binary/gf64.hpp>
-#include <libff/algebra/curves/edwards/edwards_pp.hpp>
-#include <libff/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
+#include <libff_liop/algebra/fields/binary/gf64.hpp>
+#include <libff_liop/algebra/curves/edwards/edwards_pp.hpp>
+#include <libff_liop/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
 #include "libiop/algebra/lagrange.hpp"
 #include "libiop/algebra/field_subset/field_subset.hpp"
 #include "libiop/algebra/polynomials/polynomial.hpp"
@@ -43,21 +43,21 @@ void run_lagrange_test(const field_subset<FieldT> &domain) {
 
 TEST(Test, LagrangeTest) {
     const std::size_t dim = 10;
-    const field_subset<libff::gf64> additive_domain(
-        affine_subspace<libff::gf64>::random_affine_subspace(dim));
-    run_lagrange_test<libff::gf64>(additive_domain);
-    libff::edwards_pp::init_public_params();
-    const field_subset<libff::edwards_Fr> multiplicative_domain(
-        1ull << dim, libff::edwards_Fr::one());
-    run_lagrange_test<libff::edwards_Fr>(multiplicative_domain);
-    const field_subset<libff::edwards_Fr> multiplicative_domain_with_offset(
-        1ull << dim, libff::edwards_Fr::multiplicative_generator);
-    run_lagrange_test<libff::edwards_Fr>(multiplicative_domain_with_offset);
+    const field_subset<libff_liop::gf64> additive_domain(
+        affine_subspace<libff_liop::gf64>::random_affine_subspace(dim));
+    run_lagrange_test<libff_liop::gf64>(additive_domain);
+    libff_liop::edwards_pp::init_public_params();
+    const field_subset<libff_liop::edwards_Fr> multiplicative_domain(
+        1ull << dim, libff_liop::edwards_Fr::one());
+    run_lagrange_test<libff_liop::edwards_Fr>(multiplicative_domain);
+    const field_subset<libff_liop::edwards_Fr> multiplicative_domain_with_offset(
+        1ull << dim, libff_liop::edwards_Fr::multiplicative_generator);
+    run_lagrange_test<libff_liop::edwards_Fr>(multiplicative_domain_with_offset);
 
-    libff::alt_bn128_pp::init_public_params();
-    const field_subset<libff::alt_bn128_Fr> altbn_domain(
-        1ull << dim, libff::alt_bn128_Fr::one());
-    run_lagrange_test<libff::alt_bn128_Fr>(altbn_domain);
+    libff_liop::alt_bn128_pp::init_public_params();
+    const field_subset<libff_liop::alt_bn128_Fr> altbn_domain(
+        1ull << dim, libff_liop::alt_bn128_Fr::one());
+    run_lagrange_test<libff_liop::alt_bn128_Fr>(altbn_domain);
 }
 
 template<typename FieldT>
@@ -81,26 +81,26 @@ void run_intersecting_lagrange_test(const field_subset<FieldT> &domain) {
 
 TEST(InterpolationDomainIntersects, LagrangeTest) {
     const std::size_t dim = 10;
-    const field_subset<libff::gf64> additive_domain(
-        affine_subspace<libff::gf64>::random_affine_subspace(dim));
-    run_intersecting_lagrange_test<libff::gf64>(additive_domain);
-    libff::edwards_pp::init_public_params();
-    const field_subset<libff::edwards_Fr> multiplicative_domain(
-        1ull << dim, libff::edwards_Fr::one());
-    run_intersecting_lagrange_test<libff::edwards_Fr>(multiplicative_domain);
-    const field_subset<libff::edwards_Fr> multiplicative_domain_with_offset(
-        1ull << dim, libff::edwards_Fr::multiplicative_generator);
-    run_intersecting_lagrange_test<libff::edwards_Fr>(multiplicative_domain_with_offset);
+    const field_subset<libff_liop::gf64> additive_domain(
+        affine_subspace<libff_liop::gf64>::random_affine_subspace(dim));
+    run_intersecting_lagrange_test<libff_liop::gf64>(additive_domain);
+    libff_liop::edwards_pp::init_public_params();
+    const field_subset<libff_liop::edwards_Fr> multiplicative_domain(
+        1ull << dim, libff_liop::edwards_Fr::one());
+    run_intersecting_lagrange_test<libff_liop::edwards_Fr>(multiplicative_domain);
+    const field_subset<libff_liop::edwards_Fr> multiplicative_domain_with_offset(
+        1ull << dim, libff_liop::edwards_Fr::multiplicative_generator);
+    run_intersecting_lagrange_test<libff_liop::edwards_Fr>(multiplicative_domain_with_offset);
 
-    libff::alt_bn128_pp::init_public_params();
-    const field_subset<libff::alt_bn128_Fr> altbn_domain(
-        1ull << dim, libff::alt_bn128_Fr::one());
-    run_intersecting_lagrange_test<libff::alt_bn128_Fr>(altbn_domain);
+    libff_liop::alt_bn128_pp::init_public_params();
+    const field_subset<libff_liop::alt_bn128_Fr> altbn_domain(
+        1ull << dim, libff_liop::alt_bn128_Fr::one());
+    run_intersecting_lagrange_test<libff_liop::alt_bn128_Fr>(altbn_domain);
 }
 
 TEST(CacheTest, LagrangeTest) {
     // This ensures that the lagrange cache correctly caches the previous evaluation
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
 
     const std::size_t dim = 17;
     const field_subset<FieldT> domain(

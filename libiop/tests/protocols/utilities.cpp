@@ -4,13 +4,13 @@
 
 #include <gtest/gtest.h>
 
-#include <libff/algebra/fields/binary/gf64.hpp>
+#include <libff_liop/algebra/fields/binary/gf64.hpp>
 #include "libiop/algebra/field_subset/field_subset.hpp"
 #include "libiop/algebra/polynomials/polynomial.hpp"
 #include "libiop/iop/iop.hpp"
 
-#include <libff/algebra/curves/edwards/edwards_pp.hpp>
-#include <libff/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
+#include <libff_liop/algebra/curves/edwards/edwards_pp.hpp>
+#include <libff_liop/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
 
 namespace libiop {
 
@@ -33,9 +33,9 @@ FieldT sum_over_default_field_subset(const polynomial<FieldT> &P,
     // This assumes that S was created over the default basis.
     // It then creates an extended domain, and does an FFT to convert P to evaluations
     // in that extended domain.
-    const std::size_t dim = std::max(libff::log2(P.num_terms()), libff::log2(S.num_elements()));
+    const std::size_t dim = std::max(libff_liop::log2(P.num_terms()), libff_liop::log2(S.num_elements()));
     FieldT sum = FieldT::zero();
-    if (libff::is_power_of_2(S.num_elements()))
+    if (libff_liop::is_power_of_2(S.num_elements()))
     {
         const field_subset<FieldT> extended_subset(1ull << dim);
         const std::vector<FieldT> evals = FFT_over_field_subset(P.coefficients(), extended_subset);

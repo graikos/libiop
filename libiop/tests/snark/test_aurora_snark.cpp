@@ -2,8 +2,8 @@
 
 #include <gtest/gtest.h>
 
-#include <libff/algebra/fields/binary/gf64.hpp>
-#include <libff/algebra/curves/edwards/edwards_pp.hpp>
+#include <libff_liop/algebra/fields/binary/gf64.hpp>
+#include <libff_liop/algebra/curves/edwards/edwards_pp.hpp>
 #include "libiop/snark/aurora_snark.hpp"
 #include "libiop/relations/examples/r1cs_examples.hpp"
 
@@ -11,7 +11,7 @@ namespace libiop {
 
 TEST(AuroraSnarkTest, SimpleTest) {
     /* Set up R1CS */
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
     typedef binary_hash_digest hash_type;
 
     const std::size_t num_constraints = 1 << 13;
@@ -65,8 +65,8 @@ TEST(AuroraSnarkTest, SimpleTest) {
 
 TEST(AuroraSnarkMultiplicativeTest, SimpleTest) {
     /* Set up R1CS */
-    libff::edwards_pp::init_public_params();
-    typedef libff::edwards_Fr FieldT;
+    libff_liop::edwards_pp::init_public_params();
+    typedef libff_liop::edwards_Fr FieldT;
     typedef binary_hash_digest hash_type;
 
     const size_t num_constraints = 1 << 13;

@@ -1,6 +1,6 @@
 #include <stdexcept>
 
-#include <libff/common/profiling.hpp>
+#include <libff_liop/common/profiling.hpp>
 #include "libiop/algebra/fft.hpp"
 #include "libiop/algebra/polynomials/polynomial.hpp"
 
@@ -37,8 +37,8 @@ FieldT dummy_oracle<FieldT>::evaluation_at_point(
     const FieldT evaluation_point,
     const std::vector<FieldT> &constituent_oracle_evaluations) const
 {
-    libff::UNUSED(evaluation_position);
-    libff::UNUSED(evaluation_point);
+    libff_liop::UNUSED(evaluation_position);
+    libff_liop::UNUSED(evaluation_point);
 
     if (constituent_oracle_evaluations.size() != this->num_oracles_)
     {

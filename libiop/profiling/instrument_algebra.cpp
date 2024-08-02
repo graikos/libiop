@@ -10,11 +10,11 @@
 #include <boost/program_options.hpp>
 #endif
 
-#include <libff/algebra/fields/binary/gf64.hpp>
-#include <libff/algebra/fields/binary/gf256.hpp>
-#include <libff/algebra/fields/binary/gf192.hpp>
-#include <libff/algebra/fields/binary/gf256.hpp>
-#include <libff/common/profiling.hpp>
+#include <libff_liop/algebra/fields/binary/gf64.hpp>
+#include <libff_liop/algebra/fields/binary/gf256.hpp>
+#include <libff_liop/algebra/fields/binary/gf192.hpp>
+#include <libff_liop/algebra/fields/binary/gf256.hpp>
+#include <libff_liop/common/profiling.hpp>
 #include "boost_profile.cpp"
 #include "libiop/algebra/fft.hpp"
 #include "libiop/algebra/field_subset/subspace.hpp"
@@ -74,40 +74,40 @@ void instrument_algebra(std::size_t log_n_min,
 
     for (std::size_t log_n = log_n_min; log_n <= log_n_max; log_n += 2)
     {
-        libff::print_separator();
+        libff_liop::print_separator();
         const std::size_t n = 1ul << log_n;
-        libff::print_indent(); printf("* size of n: %zu\n", n);
+        libff_liop::print_indent(); printf("* size of n: %zu\n", n);
         const std::size_t sqrt_n = 1ul << (log_n / 2);
-        libff::print_indent(); printf("* size of sqrt(n): %zu\n", sqrt_n);
+        libff_liop::print_indent(); printf("* size of sqrt(n): %zu\n", sqrt_n);
 
         /* FFT(n) */
         std::vector<FieldT> n_vec;
-        libff::enter_block("n");
+        libff_liop::enter_block("n");
         for (size_t i = 0; i < n; ++i)
         {
             n_vec.push_back(FieldT::random_element());
         }
-        libff::leave_block("n");
-        affine_subspace<FieldT> n_subspace = linear_subspace<FieldT>::standard_basis(libff::log2(n));
-        libff::enter_block("FFT(n)");
+        libff_liop::leave_block("n");
+        affine_subspace<FieldT> n_subspace = linear_subspace<FieldT>::standard_basis(libff_liop::log2(n));
+        libff_liop::enter_block("FFT(n)");
         std::vector<FieldT> fft_results = additive_FFT<FieldT>(n_vec, n_subspace);
-        libff::leave_block("FFT(n)");
+        libff_liop::leave_block("FFT(n)");
 
         /* sqrt(n) * FFT(sqrt(n)) */
         std::vector<FieldT> sqrt_n_vec;
-        libff::enter_block("sqrt(n)");
+        libff_liop::enter_block("sqrt(n)");
         for (size_t i = 0; i < sqrt_n; ++i)
         {
             sqrt_n_vec.push_back(FieldT::random_element());
         }
-        libff::leave_block("sqrt(n)");
-        affine_subspace<FieldT> sqrt_n_subspace = linear_subspace<FieldT>::standard_basis(libff::log2(sqrt_n));
-        libff::enter_block("sqrt(n) * FFT(sqrt(n))");
+        libff_liop::leave_block("sqrt(n)");
+        affine_subspace<FieldT> sqrt_n_subspace = linear_subspace<FieldT>::standard_basis(libff_liop::log2(sqrt_n));
+        libff_liop::enter_block("sqrt(n) * FFT(sqrt(n))");
         for (size_t i = 0; i < sqrt_n; ++i)
         {
             std::vector<FieldT> sqrt_results = additive_FFT<FieldT>(sqrt_n_vec, sqrt_n_subspace);
         }
-        libff::leave_block("sqrt(n) * FFT(sqrt(n))");
+        libff_liop::leave_block("sqrt(n) * FFT(sqrt(n))");
     }
 }
 
@@ -124,7 +124,7 @@ int main(int argc, const char * argv[])
         printf("There is no argument parsing in CPPDEBUG mode.");
         exit(1);
     }
-    libff::UNUSED(argv);
+    libff_liop::UNUSED(argv);
 
     log_n_min = 8;
     log_n_max = 20;
@@ -143,16 +143,16 @@ int main(int argc, const char * argv[])
     switch (field_size)
     {
         case 64:
-            instrument_algebra<libff::gf64>(log_n_min, log_n_max);
+            instrument_algebra<libff_liop::gf64>(log_n_min, log_n_max);
             break;
         case 128:
-            instrument_algebra<libff::gf128>(log_n_min, log_n_max);
+            instrument_algebra<libff_liop::gf128>(log_n_min, log_n_max);
             break;
         case 192:
-            instrument_algebra<libff::gf192>(log_n_min, log_n_max);
+            instrument_algebra<libff_liop::gf192>(log_n_min, log_n_max);
             break;
         case 256:
-            instrument_algebra<libff::gf256>(log_n_min, log_n_max);
+            instrument_algebra<libff_liop::gf256>(log_n_min, log_n_max);
             break;
         default:
             throw std::invalid_argument("Field size not supported.");

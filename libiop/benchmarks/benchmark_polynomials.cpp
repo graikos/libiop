@@ -1,9 +1,9 @@
 #include <vector>
 #include <benchmark/benchmark.h>
 
-#include <libff/algebra/fields/binary/gf64.hpp>
-#include <libff/algebra/curves/edwards/edwards_pp.hpp>
-#include <libff/common/utils.hpp>
+#include <libff_liop/algebra/fields/binary/gf64.hpp>
+#include <libff_liop/algebra/curves/edwards/edwards_pp.hpp>
+#include <libff_liop/common/utils.hpp>
 #include "libiop/algebra/utils.hpp"
 #include "libiop/algebra/polynomials/polynomial.hpp"
 #include "libiop/algebra/polynomials/vanishing_polynomial.hpp"
@@ -13,10 +13,10 @@ namespace libiop {
 
 static void BM_vanishing_polynomial_from_subspace(benchmark::State &state)
 {
-    typedef libff::gf256 FieldT;
+    typedef libff_liop::gf256 FieldT;
 
     const size_t sz = state.range(0);
-    const size_t log_sz = libff::log2(sz);
+    const size_t log_sz = libff_liop::log2(sz);
 
     const affine_subspace<FieldT> domain =
         affine_subspace<FieldT>::random_affine_subspace(log_sz);
@@ -33,10 +33,10 @@ BENCHMARK(BM_vanishing_polynomial_from_subspace)->Range(1ull<<10, 1ull<<20)->Uni
 
 static void BM_gf64_linearized_polynomial_times_small_polynomial(benchmark::State &state)
 {
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
 
     const size_t sz = state.range(0);
-    const size_t log_sz = libff::log2(sz);
+    const size_t log_sz = libff_liop::log2(sz);
     const size_t small_poly_degree = 1000;
 
     const affine_subspace<FieldT> domain =
@@ -57,11 +57,11 @@ BENCHMARK(BM_gf64_linearized_polynomial_times_small_polynomial)->Range(1ull<<10,
 
 static void BM_edwards_linearized_polynomial_times_small_polynomial(benchmark::State &state)
 {
-    libff::edwards_pp::init_public_params();
-    typedef libff::edwards_Fr FieldT;
+    libff_liop::edwards_pp::init_public_params();
+    typedef libff_liop::edwards_Fr FieldT;
 
     const size_t sz = state.range(0);
-    const size_t log_sz = libff::log2(sz);
+    const size_t log_sz = libff_liop::log2(sz);
     const size_t small_poly_degree = 1000;
 
     const field_subset<FieldT> domain(1ull << log_sz, FieldT(0));
@@ -81,10 +81,10 @@ BENCHMARK(BM_edwards_linearized_polynomial_times_small_polynomial)->Range(1ull<<
 
 static void BM_gf64_polynomial_over_vanishing_polynomial(benchmark::State &state)
 {
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
 
     const size_t sz = state.range(0);
-    const size_t log_sz = libff::log2(sz);
+    const size_t log_sz = libff_liop::log2(sz);
     const size_t poly_degree = sz;
     const size_t vanishing_poly_degree = sz >> 1;
 
@@ -105,11 +105,11 @@ BENCHMARK(BM_gf64_polynomial_over_vanishing_polynomial)->Range(1ull<<10, 1ull<<2
 
 static void BM_edwards_polynomial_over_vanishing_polynomial(benchmark::State &state)
 {
-    libff::edwards_pp::init_public_params();
-    typedef libff::edwards_Fr FieldT;
+    libff_liop::edwards_pp::init_public_params();
+    typedef libff_liop::edwards_Fr FieldT;
 
     const size_t sz = state.range(0);
-    const size_t log_sz = libff::log2(sz);
+    const size_t log_sz = libff_liop::log2(sz);
     const size_t poly_degree = sz;
     const size_t vanishing_poly_degree = sz >> 1;
 

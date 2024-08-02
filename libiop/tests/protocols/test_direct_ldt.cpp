@@ -4,12 +4,12 @@
 
 #include <gtest/gtest.h>
 
-#include <libff/algebra/curves/edwards/edwards_pp.hpp>
+#include <libff_liop/algebra/curves/edwards/edwards_pp.hpp>
 
-#include <libff/algebra/fields/binary/gf64.hpp>
+#include <libff_liop/algebra/fields/binary/gf64.hpp>
 #include "libiop/algebra/fft.hpp"
 #include "libiop/algebra/field_subset/subgroup.hpp"
-#include <libff/common/utils.hpp>
+#include <libff_liop/common/utils.hpp>
 #include "libiop/iop/iop.hpp"
 #include "libiop/iop/utilities/batching.hpp"
 #include "libiop/protocols/ldt/direct_ldt/direct_ldt.hpp"
@@ -65,7 +65,7 @@ bool run_test(const std::vector<polynomial<FieldT>> polys,
 }
 
 TEST(DirectLDTTrueTest, SimpleTest) {
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
     
     const std::size_t codeword_domain_dim = 12;
     const std::size_t RS_extra_dimensions = 3; /* \rho = 2^{-RS_extra_dimensions} */
@@ -82,7 +82,7 @@ TEST(DirectLDTTrueTest, SimpleTest) {
 }
 
 TEST(DirectLDTFalseTest, SimpleTest) {
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
 
     // one of two polynomials is of too high of a degree.
     const std::size_t codeword_domain_dim = 12;
@@ -106,8 +106,8 @@ TEST(DirectLDTFalseTest, SimpleTest) {
 }
 
 TEST(DirectLDTMultSubgroupTrueTest, SimpleTest) {
-    libff::edwards_pp::init_public_params();
-    typedef libff::edwards_Fr FieldT;
+    libff_liop::edwards_pp::init_public_params();
+    typedef libff_liop::edwards_Fr FieldT;
     
     const std::size_t codeword_domain_dim = 12;
     
@@ -124,8 +124,8 @@ TEST(DirectLDTMultSubgroupTrueTest, SimpleTest) {
 }
     
 TEST(DirectLDTMultSubgroupFalseTest, SimpleTest) {
-    libff::edwards_pp::init_public_params();
-    typedef libff::edwards_Fr FieldT;
+    libff_liop::edwards_pp::init_public_params();
+    typedef libff_liop::edwards_Fr FieldT;
 
     // one of two polynomials is of too high of a degree.
     const std::size_t codeword_domain_dim = 12;

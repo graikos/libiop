@@ -1,17 +1,17 @@
 #include <vector>
 #include <benchmark/benchmark.h>
 
-#include <libff/algebra/field_utils/field_utils.hpp>
-#include <libff/common/utils.hpp>
+#include <libff_liop/algebra/field_utils/field_utils.hpp>
+#include <libff_liop/common/utils.hpp>
 #include "libiop/algebra/utils.hpp"
-#include <libff/algebra/curves/edwards/edwards_pp.hpp>
+#include <libff_liop/algebra/curves/edwards/edwards_pp.hpp>
 
 namespace libiop {
 
 static void BM_edwards_mul_vec(benchmark::State &state)
 {
-    libff::edwards_pp::init_public_params();
-    typedef libff::edwards_Fr FieldT;
+    libff_liop::edwards_pp::init_public_params();
+    typedef libff_liop::edwards_Fr FieldT;
     const size_t sz = state.range(0);
     const std::vector<FieldT> avec = random_vector<FieldT>(sz);
     const std::vector<FieldT> bvec = random_vector<FieldT>(sz);
@@ -33,8 +33,8 @@ BENCHMARK(BM_edwards_mul_vec)->Range(1<<10, 1<<20)->Unit(benchmark::kMicrosecond
 
 static void BM_edwards_mul_vec_data_dependency(benchmark::State &state)
 {
-    libff::edwards_pp::init_public_params();
-    typedef libff::edwards_Fr FieldT;
+    libff_liop::edwards_pp::init_public_params();
+    typedef libff_liop::edwards_Fr FieldT;
     const size_t sz = state.range(0);
     const std::vector<FieldT> avec = random_vector<FieldT>(sz);
     const std::vector<FieldT> bvec = random_vector<FieldT>(sz);
@@ -56,8 +56,8 @@ BENCHMARK(BM_edwards_mul_vec_data_dependency)->Range(1<<10, 1<<20)->Unit(benchma
 
 static void BM_edwards_inverse_vec(benchmark::State& state)
 {
-    libff::edwards_pp::init_public_params();
-    typedef libff::edwards_Fr FieldT;
+    libff_liop::edwards_pp::init_public_params();
+    typedef libff_liop::edwards_Fr FieldT;
     const size_t sz = state.range(0);
     const std::vector<FieldT> vec = random_vector<FieldT>(sz);
 

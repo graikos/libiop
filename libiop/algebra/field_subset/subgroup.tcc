@@ -6,7 +6,7 @@
 #include <gmp.h>
 #endif // NDEBUG
 
-#include <libff/common/utils.hpp>
+#include <libff_liop/common/utils.hpp>
 
 namespace libiop {
 
@@ -32,7 +32,7 @@ multiplicative_subgroup_base<FieldT>::multiplicative_subgroup_base(size_t order,
 
 template<typename FieldT>
 void multiplicative_subgroup_base<FieldT>::construct_internal(
-    typename libff::enable_if<libff::is_multiplicative<FieldT>::value, FieldT>::type order, const FieldT generator)
+    typename libff_liop::enable_if<libff_liop::is_multiplicative<FieldT>::value, FieldT>::type order, const FieldT generator)
 {
     FieldT F_order = FieldT(FieldT::mod) - 1;
     // In debug mode, check that subgroup order divides the order of the field.
@@ -60,7 +60,7 @@ void multiplicative_subgroup_base<FieldT>::construct_internal(
     else
     {
         this->g_ = generator;
-        assert(libff::power(generator, order.as_ulong()) == FieldT::one());
+        assert(libff_liop::power(generator, order.as_ulong()) == FieldT::one());
     }
 
 
@@ -68,7 +68,7 @@ void multiplicative_subgroup_base<FieldT>::construct_internal(
     this->fft_cache_ = std::make_shared<std::vector<FieldT> >();
     this->order_ = order.as_ulong();
 
-    if (libff::is_power_of_2(this->order_) && this->order_ > 1)
+    if (libff_liop::is_power_of_2(this->order_) && this->order_ > 1)
     {
         this->FFT_eval_domain_ = std::make_shared<libfqfft::basic_radix2_domain<FieldT>>(this->order_);
     }
@@ -76,7 +76,7 @@ void multiplicative_subgroup_base<FieldT>::construct_internal(
 
 template<typename FieldT>
 void multiplicative_subgroup_base<FieldT>::construct_internal(
-    typename libff::enable_if<libff::is_additive<FieldT>::value, FieldT>::type order, const FieldT generator)
+    typename libff_liop::enable_if<libff_liop::is_additive<FieldT>::value, FieldT>::type order, const FieldT generator)
 {
     throw std::invalid_argument("cannot create multiplicative subgroup of this field type");
 }
@@ -100,9 +100,9 @@ std::size_t multiplicative_subgroup_base<FieldT>::dimension() const
 
     /* dimension for a subgroup is only defined when the number of elements
        is a power of 2 */
-    assert(libff::is_power_of_2(num_elems));
+    assert(libff_liop::is_power_of_2(num_elems));
 
-    return libff::log2(num_elems);
+    return libff_liop::log2(num_elems);
 }
 
 template<typename FieldT>
@@ -128,7 +128,7 @@ std::shared_ptr<std::vector<FieldT>> multiplicative_subgroup_base<FieldT>::fft_c
         for (size_t s = 1; s <= this->dimension(); ++s)
         {
             // w_m is 2^s-th root of unity now
-            const FieldT w_m = libff::power(this->g_, (this->order_/(2*m)));
+            const FieldT w_m = libff_liop::power(this->g_, (this->order_/(2*m)));
 
             FieldT w = FieldT::one();
             for (size_t j = 0; j < m; ++j)
@@ -199,7 +199,7 @@ std::size_t multiplicative_subgroup_base<FieldT>::position_by_coset_indices(
 template<typename FieldT>
 libfqfft::basic_radix2_domain<FieldT> multiplicative_subgroup_base<FieldT>::FFT_eval_domain() const
 {
-    assert(libff::is_power_of_2(this->order_));
+    assert(libff_liop::is_power_of_2(this->order_));
     return *(this->FFT_eval_domain_);
 }
 
@@ -235,7 +235,7 @@ template<typename FieldT>
 FieldT multiplicative_subgroup<FieldT>::element_by_index(const std::size_t index) const
 {
     if (this->elems_->empty()) {
-        return libff::power(this->g_, index);
+        return libff_liop::power(this->g_, index);
     } else {
         return this->elems_->operator[](index);
     }
@@ -296,7 +296,7 @@ template<typename FieldT>
 FieldT multiplicative_coset<FieldT>::element_by_index(const std::size_t index) const
 {
     if (this->elems_->empty()) {
-        return this->shift_ * libff::power(this->g_, index);
+        return this->shift_ * libff_liop::power(this->g_, index);
     } else {
         return this->elems_->operator[](index);
     }
@@ -305,7 +305,7 @@ FieldT multiplicative_coset<FieldT>::element_by_index(const std::size_t index) c
 template<typename FieldT>
 bool multiplicative_coset<FieldT>::element_in_subset(const FieldT x) const
 {
-    return libff::power(x, this->num_elements()) == libff::power(this->shift_, this->num_elements());
+    return libff_liop::power(x, this->num_elements()) == libff_liop::power(this->shift_, this->num_elements());
 }
 
 template<typename FieldT>

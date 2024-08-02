@@ -2,9 +2,9 @@
 
 #include <gtest/gtest.h>
 
-#include <libff/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
+#include <libff_liop/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
 
-#include <libff/algebra/fields/binary/gf64.hpp>
+#include <libff_liop/algebra/fields/binary/gf64.hpp>
 #include "libiop/relations/examples/r1cs_examples.hpp"
 #include "libiop/snark/ligero_snark.hpp"
 #include "libiop/bcs/common_bcs_parameters.hpp"
@@ -13,7 +13,7 @@ namespace libiop {
 
 TEST(InterleavedR1CSSnarkTest, SimpleTest) {
     /* Set up R1CS */
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
 
     std::size_t num_constraints = 16;
     std::size_t constraint_dim = 4;
@@ -51,8 +51,8 @@ TEST(InterleavedR1CSSnarkTest, SimpleTest) {
 
 TEST(InterleavedR1CSSnarkMultiplicativeTest, SimpleTest) {
     /* Set up R1CS */
-    libff::alt_bn128_pp::init_public_params();
-    typedef libff::alt_bn128_Fr FieldT;
+    libff_liop::alt_bn128_pp::init_public_params();
+    typedef libff_liop::alt_bn128_Fr FieldT;
 
     std::size_t num_constraints = 16;
     std::size_t constraint_dim = 4;

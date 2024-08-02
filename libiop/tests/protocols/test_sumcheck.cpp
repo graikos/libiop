@@ -5,7 +5,7 @@
 #include <gtest/gtest.h>
 
 #include "libiop/algebra/fft.hpp"
-#include <libff/common/utils.hpp>
+#include <libff_liop/common/utils.hpp>
 #include "libiop/iop/iop.hpp"
 #include "libiop/protocols/encoded/sumcheck/sumcheck.hpp"
 #include "libiop/tests/protocols/utilities.cpp"
@@ -152,7 +152,7 @@ void run_random_sumcheck_test(const std::size_t summation_domain_dim,
 /** SumcheckDegreeBoundTest tests ensures correctness of the above helper function,
  *  degree_bound_from_evals */
 TEST(SumcheckDegreeBoundTest, SimpleTest) {
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
 
     const std::size_t dim = 10;
     const affine_subspace<FieldT> domain =
@@ -169,7 +169,7 @@ TEST(SumcheckDegreeBoundTest, SimpleTest) {
 
 TEST(SumcheckAdditiveLemmaTest, SimpleTest) {
     /** SumcheckAdditiveLemmaTest ensures that the lemma in the sumcheck holds true. */
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
 
     const std::size_t summation_domain_dim = 10;
     const std::size_t poly_degree_bound = 1234; /* a bit larger than summation domain */
@@ -188,7 +188,7 @@ TEST(SumcheckAdditiveLemmaTest, SimpleTest) {
     FieldT power_sum = FieldT::zero();
     for (auto &el : summation_domain.all_elements())
     {
-        power_sum += libff::power(el, summation_domain.num_elements() - 1);
+        power_sum += libff_liop::power(el, summation_domain.num_elements() - 1);
     }
     const linearized_polynomial<FieldT> Z =
         vanishing_polynomial_from_subspace(summation_domain);
@@ -205,7 +205,7 @@ TEST(SumcheckAdditiveLemmaTest, SimpleTest) {
 }
 
 TEST(SumcheckAdditiveTestGf64, SimpleTest) {
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
 
     const std::size_t summation_domain_dim = 8;
     const std::size_t codeword_domain_dim_11 = 11;
@@ -220,8 +220,8 @@ TEST(SumcheckAdditiveTestGf64, SimpleTest) {
 }
 
 TEST(SumcheckMultiplicativeTest, SimpleTest) {
-    libff::edwards_pp::init_public_params();
-    typedef libff::edwards_Fr FieldT;
+    libff_liop::edwards_pp::init_public_params();
+    typedef libff_liop::edwards_Fr FieldT;
 
     const std::size_t summation_domain_dim = 4;
     const std::size_t codeword_domain_dim = 6;
@@ -287,13 +287,13 @@ void test_sumcheck_on_invalid_input(const field_subset_type domain_type) {
 }
 
 TEST(SumcheckFailingAdditiveTestsGf64, SimpleTest) {
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
     test_sumcheck_on_invalid_input<FieldT>(affine_subspace_type);
 }
 
 TEST(SumcheckFailingMultiplicativeTestsGf64, SimpleTest) {
-    libff::edwards_pp::init_public_params();
-    typedef libff::edwards_Fr FieldT;
+    libff_liop::edwards_pp::init_public_params();
+    typedef libff_liop::edwards_Fr FieldT;
     test_sumcheck_on_invalid_input<FieldT>(multiplicative_coset_type);
 }
 

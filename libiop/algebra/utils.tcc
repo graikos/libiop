@@ -1,7 +1,7 @@
 #include <cassert>
 #include <sodium/randombytes.h>
 
-#include <libff/common/utils.hpp>
+#include <libff_liop/common/utils.hpp>
 
 namespace libiop {
 
@@ -145,12 +145,12 @@ template<typename T>
 void bitreverse_vector(std::vector<T> &a)
 {
     const size_t n = a.size();
-    const size_t logn = libff::log2(n);
+    const size_t logn = libff_liop::log2(n);
     assert(n == 1ull<<logn);
 
     for (size_t k = 0; k < n; ++k)
     {
-        const size_t rk = libff::bitreverse(k, logn);
+        const size_t rk = libff_liop::bitreverse(k, logn);
         if (k < rk)
         {
             std::swap(a[k], a[rk]);

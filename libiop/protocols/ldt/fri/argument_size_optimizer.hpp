@@ -11,7 +11,7 @@
 #include <vector>
 #include <algorithm>
 
-#include <libff/algebra/field_utils/field_utils.hpp>
+#include <libff_liop/algebra/field_utils/field_utils.hpp>
 #include "libiop/algebra/utils.hpp"
 #include "libiop/protocols/ldt/fri/fri_aux.hpp"
 #include "libiop/bcs/bcs_common.hpp"

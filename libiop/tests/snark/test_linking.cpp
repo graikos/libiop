@@ -2,9 +2,9 @@
 
 #include <gtest/gtest.h>
 
-#include <libff/algebra/fields/binary/gf64.hpp>
-#include <libff/algebra/curves/edwards/edwards_pp.hpp>
-#include <libff/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
+#include <libff_liop/algebra/fields/binary/gf64.hpp>
+#include <libff_liop/algebra/curves/edwards/edwards_pp.hpp>
+#include <libff_liop/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
 #include "libiop/snark/fractal_snark.hpp"
 #include "libiop/snark/ligero_snark.hpp"
 #include "libiop/relations/examples/r1cs_examples.hpp"
@@ -13,7 +13,7 @@ namespace libiop {
 
 TEST(LinkTest, SimpleTest) {
     /* Set up R1CS */
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
     typedef binary_hash_digest hash_type;
 
     const std::size_t num_constraints = 1 << 8;

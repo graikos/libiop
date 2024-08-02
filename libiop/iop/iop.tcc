@@ -584,7 +584,7 @@ std::vector<FieldT> iop_protocol<FieldT>::receive_prover_message(const prover_me
 
 template<typename FieldT>
 void iop_protocol<FieldT>::set_round_parameters(const round_parameters<FieldT> &params) {
-    libff::UNUSED(params);
+    libff_liop::UNUSED(params);
 }
 
 template<typename FieldT>

@@ -3,9 +3,9 @@
 #include <gtest/gtest.h>
 #include <vector>
 
-#include <libff/algebra/fields/binary/gf64.hpp>
-#include <libff/algebra/curves/edwards/edwards_pp.hpp>
-#include <libff/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
+#include <libff_liop/algebra/fields/binary/gf64.hpp>
+#include <libff_liop/algebra/curves/edwards/edwards_pp.hpp>
+#include <libff_liop/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
 #include "libiop/algebra/polynomials/polynomial.hpp"
 #include "libiop/iop/utilities/query_positions.hpp"
 
@@ -45,7 +45,7 @@ void run_query_to_queries_for_entire_coset_test(
 }
 
 TEST(QueryEntireCosetTest, AdditiveTest) {
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
     size_t codeword_domain_dim = 10;
     FieldT codeword_domain_offset = FieldT::zero();
     size_t coset_size = 4;
@@ -63,8 +63,8 @@ TEST(QueryEntireCosetTest, AdditiveTest) {
 }
 
 TEST(QueryEntireCosetTest, MultiplicativeTest) {
-    libff::alt_bn128_pp::init_public_params();
-    typedef libff::alt_bn128_Fr FieldT;
+    libff_liop::alt_bn128_pp::init_public_params();
+    typedef libff_liop::alt_bn128_Fr FieldT;
 
     size_t codeword_domain_dim = 10;
     FieldT codeword_domain_shift = FieldT::one();

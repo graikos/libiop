@@ -13,7 +13,7 @@
 #include <string>
 #include <type_traits>
 #include <vector>
-#include <libff/algebra/field_utils/field_utils.hpp>
+#include <libff_liop/algebra/field_utils/field_utils.hpp>
 
 namespace libiop {
 
@@ -54,16 +54,16 @@ using two_to_one_hash_function = std::function<hash_type(const hash_type&, const
 
 /* Sizeof algebraic hash */
 template<typename hash_type>
-size_t get_hash_size(const typename libff::enable_if<!std::is_same<hash_type, binary_hash_digest>::value, hash_type>::type h)
+size_t get_hash_size(const typename libff_liop::enable_if<!std::is_same<hash_type, binary_hash_digest>::value, hash_type>::type h)
 {
     const size_t field_size =
-        (libff::log_of_field_size_helper<hash_type>(hash_type::zero()) + 7) / 8;
+        (libff_liop::log_of_field_size_helper<hash_type>(hash_type::zero()) + 7) / 8;
     return field_size;
 }
 
 /* Sizeof binary hash */
 template<typename hash_type>
-size_t get_hash_size(const typename libff::enable_if<std::is_same<hash_type, binary_hash_digest>::value, hash_type>::type h)
+size_t get_hash_size(const typename libff_liop::enable_if<std::is_same<hash_type, binary_hash_digest>::value, hash_type>::type h)
 {
     return h.size();
 }

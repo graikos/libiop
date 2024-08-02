@@ -2,8 +2,8 @@
 #include <gtest/gtest.h>
 #include <vector>
 
-#include <libff/algebra/fields/binary/gf64.hpp>
-#include <libff/algebra/curves/edwards/edwards_pp.hpp>
+#include <libff_liop/algebra/fields/binary/gf64.hpp>
+#include <libff_liop/algebra/curves/edwards/edwards_pp.hpp>
 #include "libiop/algebra/exponentiation.hpp"
 
 namespace libiop {
@@ -16,7 +16,7 @@ std::vector<FieldT> domain_element_powers_naive(const field_subset<FieldT> &S,
 
     for (auto &el : S.all_elements())
     {
-        result.emplace_back(libff::power(el, exponent));
+        result.emplace_back(libff_liop::power(el, exponent));
     }
 
     return result;
@@ -24,7 +24,7 @@ std::vector<FieldT> domain_element_powers_naive(const field_subset<FieldT> &S,
 
 
 TEST(ExponentiationTest, SubspaceElementPowersTest) {
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
 
     const std::size_t dimension = 10;
     const std::size_t max_power = 1000;
@@ -44,8 +44,8 @@ TEST(ExponentiationTest, SubspaceElementPowersTest) {
 }
 
 TEST(ExponentiationTest, CosetElementPowersTest) {    
-    libff::edwards_pp::init_public_params();
-    typedef libff::edwards_Fr FieldT;
+    libff_liop::edwards_pp::init_public_params();
+    typedef libff_liop::edwards_Fr FieldT;
 
     const std::size_t dimension = 10;
     const std::size_t max_power = 1000;

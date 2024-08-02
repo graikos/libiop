@@ -11,10 +11,10 @@ std::vector<FieldT> subspace_to_power_of_two(const affine_subspace<FieldT> &S,
     std::vector<FieldT> basis_powers(S.basis());
     for (auto &el : basis_powers)
     {
-        el = libff::power(el, power_of_two);
+        el = libff_liop::power(el, power_of_two);
     }
 
-    const FieldT shift_power = libff::power(S.shift(), power_of_two);
+    const FieldT shift_power = libff_liop::power(S.shift(), power_of_two);
     return all_subset_sums<FieldT>(basis_powers, shift_power);
 }
 
@@ -29,7 +29,7 @@ std::vector<FieldT> subspace_element_powers(const affine_subspace<FieldT> &S,
      *
      *  In the case where the exponent is a power of two, we skip the multiplications.
      */
-    if (libff::is_power_of_2(exponent))
+    if (libff_liop::is_power_of_2(exponent))
     {
         return subspace_to_power_of_two(S, exponent);
     }
@@ -60,8 +60,8 @@ std::vector<FieldT> coset_element_powers(const multiplicative_coset<FieldT> &S,
     std::vector<FieldT> result;
     result.reserve(S.num_elements());
 
-    const FieldT g_to_exp = libff::power(S.generator(), exponent);
-    FieldT current_term = libff::power(S.shift(), exponent);
+    const FieldT g_to_exp = libff_liop::power(S.generator(), exponent);
+    FieldT current_term = libff_liop::power(S.shift(), exponent);
 
     for (std::size_t i = 0; i < S.num_elements(); i++) {
         result.emplace_back(current_term);

@@ -1,7 +1,7 @@
 #include <memory>
 #include <stdexcept>
 
-#include <libff/common/profiling.hpp>
+#include <libff_liop/common/profiling.hpp>
 #include "libiop/algebra/fft.hpp"
 #include "libiop/algebra/utils.hpp"
 #include "libiop/algebra/polynomials/polynomial.hpp"

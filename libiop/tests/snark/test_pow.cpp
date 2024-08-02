@@ -6,14 +6,14 @@
 #include "libiop/bcs/hashing/hash_enum.hpp"
 #include "libiop/bcs/pow.hpp"
 
-#include <libff/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
+#include <libff_liop/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
 
 namespace libiop {
 
 TEST(BinaryPoWTest, SimpleTest) {
     /* Arbitrary field */
-    libff::alt_bn128_pp::init_public_params();
-    typedef libff::alt_bn128_Fr FieldT;
+    libff_liop::alt_bn128_pp::init_public_params();
+    typedef libff_liop::alt_bn128_Fr FieldT;
     typedef binary_hash_digest hash_type;
     const size_t security_parameter = 128;
     const size_t digets_len_bytes = 2 * security_parameter/8;
@@ -34,8 +34,8 @@ TEST(BinaryPoWTest, SimpleTest) {
 
 TEST(AlgeraicPoWTest, SimpleTest) {
     /* Set up field / pow params */
-    libff::alt_bn128_pp::init_public_params();
-    typedef libff::alt_bn128_Fr FieldT;
+    libff_liop::alt_bn128_pp::init_public_params();
+    typedef libff_liop::alt_bn128_Fr FieldT;
     typedef FieldT hash_type;
     const size_t digets_len_bytes = 32;
 

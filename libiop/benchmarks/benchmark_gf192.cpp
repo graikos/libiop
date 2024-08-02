@@ -3,20 +3,20 @@
 #include <vector>
 #include <benchmark/benchmark.h>
 
-#include <libff/algebra/fields/binary/gf192.hpp>
+#include <libff_liop/algebra/fields/binary/gf192.hpp>
 #include "libiop/algebra/utils.hpp"
 
-using namespace libff;
+using namespace libff_liop;
 
 namespace libiop {
 
 static void BM_gf192_mul_vec(benchmark::State &state)
 {
     const size_t sz = state.range(0);
-    const std::vector<libff::gf192> avec = random_vector<libff::gf192>(sz);
-    const std::vector<libff::gf192> bvec = random_vector<libff::gf192>(sz);
+    const std::vector<libff_liop::gf192> avec = random_vector<libff_liop::gf192>(sz);
+    const std::vector<libff_liop::gf192> bvec = random_vector<libff_liop::gf192>(sz);
 
-    std::vector<libff::gf192> cvec(sz);
+    std::vector<libff_liop::gf192> cvec(sz);
 
     for (auto _ : state)
     {
@@ -34,9 +34,9 @@ BENCHMARK(BM_gf192_mul_vec)->Range(1<<10, 1<<20)->Unit(benchmark::kMicrosecond);
 static void BM_gf192_inverse_vec(benchmark::State& state)
 {
     const size_t sz = state.range(0);
-    const std::vector<libff::gf192> vec = random_vector<libff::gf192>(sz);
+    const std::vector<libff_liop::gf192> vec = random_vector<libff_liop::gf192>(sz);
 
-    std::vector<libff::gf192> result(sz);
+    std::vector<libff_liop::gf192> result(sz);
 
     for (auto _ : state)
     {

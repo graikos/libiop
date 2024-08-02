@@ -4,8 +4,8 @@
 
 #include <gtest/gtest.h>
 
-#include <libff/algebra/fields/binary/gf64.hpp>
-#include <libff/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
+#include <libff_liop/algebra/fields/binary/gf64.hpp>
+#include <libff_liop/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
 
 #include "libiop/algebra/polynomials/polynomial.hpp"
 #include "libiop/iop/iop.hpp"
@@ -22,8 +22,8 @@
 namespace libiop {
 
 TEST(VectorSerialization, BCSTest) {
-    libff::alt_bn128_pp::init_public_params();
-    typedef libff::alt_bn128_Fr FieldT;
+    libff_liop::alt_bn128_pp::init_public_params();
+    typedef libff_liop::alt_bn128_Fr FieldT;
     std::vector<FieldT> start = {FieldT::zero(), FieldT::one()};
     std::ostringstream s1;
     serialize_Field_Elem_vec<FieldT>(s1, start);
@@ -37,8 +37,8 @@ TEST(VectorSerialization, BCSTest) {
 
 TEST(TranscriptSerializationOnSnark, SimpleTest) {
     /* Set up R1CS */
-    libff::alt_bn128_pp::init_public_params();
-    typedef libff::alt_bn128_Fr FieldT;
+    libff_liop::alt_bn128_pp::init_public_params();
+    typedef libff_liop::alt_bn128_Fr FieldT;
     typedef FieldT hash_type;
 
     const size_t num_constraints = 1 << 5;

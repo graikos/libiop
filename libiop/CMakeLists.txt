@@ -22,7 +22,7 @@ target_link_libraries(
 
   sodium
 
-  ff
+  ff_liop
 )
 
 target_include_directories(
@@ -30,7 +30,7 @@ target_include_directories(
 
   PUBLIC
   ../depends/libfqfft
-  ../depends/libff
+  ../depends/libff_liop
 )
 
 # # BENCHMARKING

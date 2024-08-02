@@ -3,20 +3,20 @@
 #include <vector>
 #include <benchmark/benchmark.h>
 
-#include <libff/algebra/fields/binary/gf64.hpp>
+#include <libff_liop/algebra/fields/binary/gf64.hpp>
 #include "libiop/algebra/utils.hpp"
 
-using namespace libff;
+using namespace libff_liop;
 
 namespace libiop {
 
 static void BM_gf64_mul_vec(benchmark::State &state)
 {
     const size_t sz = state.range(0);
-    const std::vector<libff::gf64> avec = random_vector<libff::gf64>(sz);
-    const std::vector<libff::gf64> bvec = random_vector<libff::gf64>(sz);
+    const std::vector<libff_liop::gf64> avec = random_vector<libff_liop::gf64>(sz);
+    const std::vector<libff_liop::gf64> bvec = random_vector<libff_liop::gf64>(sz);
 
-    std::vector<libff::gf64> cvec(sz);
+    std::vector<libff_liop::gf64> cvec(sz);
 
     for (auto _ : state)
     {
@@ -34,10 +34,10 @@ BENCHMARK(BM_gf64_mul_vec)->Range(1<<10, 1<<20)->Unit(benchmark::kMicrosecond);
 static void BM_gf64_mul_vec_data_dependency(benchmark::State &state)
 {
     const size_t sz = state.range(0);
-    const std::vector<libff::gf64> avec = random_vector<libff::gf64>(sz);
-    const std::vector<libff::gf64> bvec = random_vector<libff::gf64>(sz);
+    const std::vector<libff_liop::gf64> avec = random_vector<libff_liop::gf64>(sz);
+    const std::vector<libff_liop::gf64> bvec = random_vector<libff_liop::gf64>(sz);
 
-    libff::gf64 sum = libff::gf64(0);
+    libff_liop::gf64 sum = libff_liop::gf64(0);
 
     for (auto _ : state)
     {
@@ -61,8 +61,8 @@ static void BM_gf64_mul(benchmark::State &state)
     const size_t num_elems = (L1_cache_size / (4 * sizeof(gf64)));
 
     const size_t sz = state.range(0);
-    const std::vector<libff::gf64> avec = random_vector<libff::gf64>(num_elems);
-    std::vector<libff::gf64> bvec = random_vector<libff::gf64>(num_elems);
+    const std::vector<libff_liop::gf64> avec = random_vector<libff_liop::gf64>(num_elems);
+    std::vector<libff_liop::gf64> bvec = random_vector<libff_liop::gf64>(num_elems);
 
     const size_t num_iters = sz / num_elems; // may be off by 1 iteration, but that should be negligible
 
@@ -90,8 +90,8 @@ static void BM_gf64_mul_equals(benchmark::State &state)
     const size_t num_elems = (L1_cache_size / (4 * sizeof(gf64)));
 
     const size_t sz = state.range(0);
-    std::vector<libff::gf64> avec = random_vector<libff::gf64>(num_elems);
-    const std::vector<libff::gf64> bvec = random_vector<libff::gf64>(num_elems);
+    std::vector<libff_liop::gf64> avec = random_vector<libff_liop::gf64>(num_elems);
+    const std::vector<libff_liop::gf64> bvec = random_vector<libff_liop::gf64>(num_elems);
 
     const size_t num_iters = sz / num_elems; // may be off by 1 iteration, but that should be negligible
 
@@ -113,9 +113,9 @@ BENCHMARK(BM_gf64_mul_equals)->Range(1<<20, 1<<28)->Unit(benchmark::kMicrosecond
 static void BM_gf64_inverse_vec(benchmark::State& state)
 {
     const size_t sz = state.range(0);
-    const std::vector<libff::gf64> vec = random_vector<libff::gf64>(sz);
+    const std::vector<libff_liop::gf64> vec = random_vector<libff_liop::gf64>(sz);
 
-    std::vector<libff::gf64> result(sz);
+    std::vector<libff_liop::gf64> result(sz);
 
     for (auto _ : state)
     {

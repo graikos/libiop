@@ -3,13 +3,13 @@
 #include <iostream>
 #include <vector>
 
-#include <libff/algebra/curves/edwards/edwards_pp.hpp>
-#include <libff/algebra/fields/binary/gf64.hpp>
+#include <libff_liop/algebra/curves/edwards/edwards_pp.hpp>
+#include <libff_liop/algebra/fields/binary/gf64.hpp>
 #include "libiop/algebra/fft.hpp"
 #include "libiop/algebra/polynomials/polynomial.hpp"
 #include "libiop/algebra/polynomials/vanishing_polynomial.hpp"
 #include "libiop/algebra/field_subset/subspace.hpp"
-#include <libff/common/utils.hpp>
+#include <libff_liop/common/utils.hpp>
 
 namespace libiop {
 
@@ -32,15 +32,15 @@ void run_vanishing_polynomial_multiplication_test(FieldT shift) {
 }
 
 TEST(PolynomialTest, TestGf64VanishingPolynomialMultiplication) {
-    libff::gf64 shift = libff::gf64(1ull << 20);
-    run_vanishing_polynomial_multiplication_test<libff::gf64>(libff::gf64::zero());
-    run_vanishing_polynomial_multiplication_test<libff::gf64>(shift);
+    libff_liop::gf64 shift = libff_liop::gf64(1ull << 20);
+    run_vanishing_polynomial_multiplication_test<libff_liop::gf64>(libff_liop::gf64::zero());
+    run_vanishing_polynomial_multiplication_test<libff_liop::gf64>(shift);
 }
 
 TEST(PolynomialTest, TestEdwardsVanishingPolynomialMultiplication) {
-    libff::edwards_pp::init_public_params();
-    run_vanishing_polynomial_multiplication_test<libff::edwards_Fr>(libff::edwards_Fr::one());
-    run_vanishing_polynomial_multiplication_test<libff::edwards_Fr>(libff::edwards_Fr::multiplicative_generator);
+    libff_liop::edwards_pp::init_public_params();
+    run_vanishing_polynomial_multiplication_test<libff_liop::edwards_Fr>(libff_liop::edwards_Fr::one());
+    run_vanishing_polynomial_multiplication_test<libff_liop::edwards_Fr>(libff_liop::edwards_Fr::multiplicative_generator);
 }
 
 template<typename FieldT>
@@ -56,7 +56,7 @@ void run_vanishing_polynomial_evaluations_test(
             ", vp domain size: " << vp_domain.num_elements() <<
             ", eval domain size: " << evaluation_domain.num_elements();
     }
-    if (libff::is_power_of_2(evaluation_domain.num_elements()))
+    if (libff_liop::is_power_of_2(evaluation_domain.num_elements()))
     {
         const polynomial<FieldT> P_as_poly(IFFT_over_field_subset<FieldT>(evals, evaluation_domain));
         size_t minimal_num_terms = P_as_poly.minimal_num_terms();
@@ -66,8 +66,8 @@ void run_vanishing_polynomial_evaluations_test(
 }
 
 TEST(PolynomialTest, MultiplicativeVanishingPolynomialTest) {
-    libff::edwards_pp::init_public_params();
-    typedef libff::edwards_Fr FieldT;
+    libff_liop::edwards_pp::init_public_params();
+    typedef libff_liop::edwards_Fr FieldT;
 
     for (std::size_t dim_vp = 1; dim_vp < 10; ++dim_vp)
     {
@@ -88,8 +88,8 @@ TEST(PolynomialTest, MultiplicativeVanishingPolynomialTest) {
 }
 
 TEST(PolynomialTest, MultiplicativeVanishingPolynomialNonPowerOf2DomainsTest) {
-    libff::edwards_pp::init_public_params();
-    typedef libff::edwards_Fr FieldT;
+    libff_liop::edwards_pp::init_public_params();
+    typedef libff_liop::edwards_Fr FieldT;
     // vector of some select factors of |F| - 1.
     std::vector<size_t> factors({128, 3, 5, 7, 17, 29, 53, 79, 113});
 
@@ -128,8 +128,8 @@ TEST(PolynomialTest, MultiplicativeVanishingPolynomialNonPowerOf2DomainsTest) {
 }
 
 TEST(PolynomialTest, MultiplicativeVanishingPolynomialDivisionTest) {
-    libff::edwards_pp::init_public_params();
-    typedef libff::edwards_Fr FieldT;
+    libff_liop::edwards_pp::init_public_params();
+    typedef libff_liop::edwards_Fr FieldT;
 
     for (std::size_t dim_vp = 1; dim_vp < 10; ++dim_vp)
     {

@@ -1,5 +1,5 @@
-#include <libff/common/profiling.hpp>
-#include <libff/common/utils.hpp>
+#include <libff_liop/common/profiling.hpp>
+#include <libff_liop/common/utils.hpp>
 #include "libiop/algebra/field_subset/subspace.hpp"
 #include "libiop/protocols/fri_iop.hpp"
 #include "libiop/bcs/bcs_common.hpp"
@@ -10,12 +10,12 @@ namespace libiop {
 template<typename FieldT>
 void FRI_snark_parameters<FieldT>::describe()
 {
-    libff::print_indent(); printf("* FRI SNARK parameters:\n");
-    libff::print_indent(); printf("* Security level: %zu\n", security_level_);
-    libff::print_indent(); printf("* RS extra dimensions: %zu\n", RS_extra_dimensions_);
-    libff::print_indent(); printf("* Localization parameter: %zu\n", localization_parameter_);
-    libff::print_indent(); printf("* Localization parameter array: %zu\n", localization_parameter_array_);
-    libff::print_indent(); printf("* Num query repetitions: %zu\n", num_query_repetitions_);
+    libff_liop::print_indent(); printf("* FRI SNARK parameters:\n");
+    libff_liop::print_indent(); printf("* Security level: %zu\n", security_level_);
+    libff_liop::print_indent(); printf("* RS extra dimensions: %zu\n", RS_extra_dimensions_);
+    libff_liop::print_indent(); printf("* Localization parameter: %zu\n", localization_parameter_);
+    libff_liop::print_indent(); printf("* Localization parameter array: %zu\n", localization_parameter_array_);
+    libff_liop::print_indent(); printf("* Num query repetitions: %zu\n", num_query_repetitions_);
 }
 
 template<typename FieldT, typename hash_type>
@@ -43,7 +43,7 @@ obtain_bcs_and_FRI_parameters_from_FRI_snark_parameters(const FRI_snark_paramete
 template<typename FieldT, typename hash_type>
 FRI_snark_proof<FieldT, hash_type> FRI_snark_prover(const FRI_snark_parameters<FieldT> &parameters)
 {
-    libff::enter_block("FRI SNARK prover");
+    libff_liop::enter_block("FRI SNARK prover");
     const std::pair<bcs_transformation_parameters<FieldT, hash_type>,
                     FRI_iop_protocol_parameters>
         bcs_and_FRI_parameters =
@@ -62,17 +62,17 @@ FRI_snark_proof<FieldT, hash_type> FRI_snark_prover(const FRI_snark_parameters<F
 
     full_protocol.produce_proof();
 
-    libff::enter_block("Obtain transcript");
-    libff::enter_block("Run verifier to populate virtual oracle data structures");
+    libff_liop::enter_block("Obtain transcript");
+    libff_liop::enter_block("Run verifier to populate virtual oracle data structures");
     full_protocol.verifier_predicate();
-    libff::leave_block("Run verifier to populate virtual oracle data structures");
+    libff_liop::leave_block("Run verifier to populate virtual oracle data structures");
 
     const FRI_snark_proof<FieldT, hash_type> transcript = IOP.get_transcript();
-    libff::leave_block("Obtain transcript");
+    libff_liop::leave_block("Obtain transcript");
 
     IOP.describe_sizes();
 
-    libff::leave_block("FRI SNARK prover");
+    libff_liop::leave_block("FRI SNARK prover");
     return transcript;
 }
 
@@ -80,7 +80,7 @@ template<typename FieldT, typename hash_type>
 bool FRI_snark_verifier(const FRI_snark_proof<FieldT, hash_type> &proof,
                         const FRI_snark_parameters<FieldT> &parameters)
 {
-    libff::enter_block("FRI SNARK verifier");
+    libff_liop::enter_block("FRI SNARK verifier");
     const std::pair<bcs_transformation_parameters<FieldT, hash_type>,
                     FRI_iop_protocol_parameters>
         bcs_and_FRI_parameters =
@@ -97,16 +97,16 @@ bool FRI_snark_verifier(const FRI_snark_proof<FieldT, hash_type> &proof,
     full_protocol.register_queries();
     IOP.seal_query_registrations();
 
-    libff::enter_block("Check semantic validity of IOP transcript");
+    libff_liop::enter_block("Check semantic validity of IOP transcript");
     const bool IOP_transcript_valid = IOP.transcript_is_valid();
-    libff::leave_block("Check semantic validity of IOP transcript");
+    libff_liop::leave_block("Check semantic validity of IOP transcript");
 
     const bool full_protocol_accepts = full_protocol.verifier_predicate();
 
-    libff::print_indent(); printf("* IOP transcript valid: %s\n", IOP_transcript_valid ? "true" : "false");
-    libff::print_indent(); printf("* Full protocol decision predicate satisfied: %s\n", full_protocol_accepts ? "true" : "false");
+    libff_liop::print_indent(); printf("* IOP transcript valid: %s\n", IOP_transcript_valid ? "true" : "false");
+    libff_liop::print_indent(); printf("* Full protocol decision predicate satisfied: %s\n", full_protocol_accepts ? "true" : "false");
     const bool decision = IOP_transcript_valid && full_protocol_accepts;
-    libff::leave_block("FRI SNARK verifier");
+    libff_liop::leave_block("FRI SNARK verifier");
 
     return decision;
 }

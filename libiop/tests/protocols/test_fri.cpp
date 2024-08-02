@@ -4,12 +4,12 @@
 
 #include <gtest/gtest.h>
 
-#include <libff/algebra/fields/binary/gf64.hpp>
-#include <libff/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
-#include <libff/algebra/field_utils/field_utils.hpp>
+#include <libff_liop/algebra/fields/binary/gf64.hpp>
+#include <libff_liop/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
+#include <libff_liop/algebra/field_utils/field_utils.hpp>
 #include "libiop/algebra/fft.hpp"
 #include "libiop/algebra/field_subset/subgroup.hpp"
-#include <libff/common/utils.hpp>
+#include <libff_liop/common/utils.hpp>
 #include "libiop/iop/iop.hpp"
 #include "libiop/protocols/ldt/fri/fri_ldt.hpp"
 
@@ -17,9 +17,9 @@ namespace libiop {
 
 template<typename FieldT>
 field_subset<FieldT> make_domain_helper(const std::size_t dimension,
-                                        const typename libff::enable_if<libff::is_multiplicative<FieldT>::value, FieldT>::type elem)
+                                        const typename libff_liop::enable_if<libff_liop::is_multiplicative<FieldT>::value, FieldT>::type elem)
 {
-    libff::UNUSED(elem); // only to identify field type
+    libff_liop::UNUSED(elem); // only to identify field type
 
     const std::size_t size = 1ull << dimension;
     return field_subset<FieldT>(size, FieldT::multiplicative_generator);
@@ -27,9 +27,9 @@ field_subset<FieldT> make_domain_helper(const std::size_t dimension,
 
 template<typename FieldT>
 field_subset<FieldT> make_domain_helper(const std::size_t dimension,
-                                        const typename libff::enable_if<libff::is_additive<FieldT>::value, FieldT>::type elem)
+                                        const typename libff_liop::enable_if<libff_liop::is_additive<FieldT>::value, FieldT>::type elem)
 {
-    libff::UNUSED(elem); // only to identify field type
+    libff_liop::UNUSED(elem); // only to identify field type
 
     const size_t size = 1ull << dimension;
     return field_subset<FieldT>(size, FieldT(size));
@@ -105,7 +105,7 @@ bool run_test(const std::size_t codeword_domain_dim,
 }
 
 TEST(FRITrueTest, SimpleTest) {
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
 
     /* Common parameters */
     const std::size_t codeword_domain_dim = 10;
@@ -121,7 +121,7 @@ TEST(FRITrueTest, SimpleTest) {
 }
 
 TEST(FRIFalseTest, SimpleTest) {
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
 
     /* Common parameters */
     const std::size_t codeword_domain_dim = 12;
@@ -137,9 +137,9 @@ TEST(FRIFalseTest, SimpleTest) {
 }
 
 TEST(FRIMultiplicativeTrueTest, SimpleTest) {
-    libff::alt_bn128_pp::init_public_params();
+    libff_liop::alt_bn128_pp::init_public_params();
 
-    typedef libff::alt_bn128_Fr FieldT;
+    typedef libff_liop::alt_bn128_Fr FieldT;
 
     /* Common parameters */
     const std::size_t codeword_domain_dim = 12;
@@ -155,9 +155,9 @@ TEST(FRIMultiplicativeTrueTest, SimpleTest) {
 }
 
 TEST(FRIMultiplicativeFalseTest, SimpleTest) {
-    libff::alt_bn128_pp::init_public_params();
+    libff_liop::alt_bn128_pp::init_public_params();
 
-    typedef libff::alt_bn128_Fr FieldT;
+    typedef libff_liop::alt_bn128_Fr FieldT;
 
     /* Common parameters */
     const std::size_t codeword_domain_dim = 12;
@@ -173,7 +173,7 @@ TEST(FRIMultiplicativeFalseTest, SimpleTest) {
 }
 
 TEST(FRITrueEarlyStopTest, SimpleTest) {
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
 
     /* Common parameters */
     const std::size_t codeword_domain_dim = 12;
@@ -189,7 +189,7 @@ TEST(FRITrueEarlyStopTest, SimpleTest) {
 }
 
 TEST(FRIFalseEarlyStopTest, SimpleTest) {
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
 
     /* Common parameters */
     const std::size_t codeword_domain_dim = 12;
@@ -205,9 +205,9 @@ TEST(FRIFalseEarlyStopTest, SimpleTest) {
 }
 
 TEST(FRIMultiplicativeTrueEarlyStopTest, SimpleTest) {
-    libff::alt_bn128_pp::init_public_params();
+    libff_liop::alt_bn128_pp::init_public_params();
 
-    typedef libff::alt_bn128_Fr FieldT;
+    typedef libff_liop::alt_bn128_Fr FieldT;
 
     /* Common parameters */
     const std::size_t codeword_domain_dim = 12;
@@ -223,9 +223,9 @@ TEST(FRIMultiplicativeTrueEarlyStopTest, SimpleTest) {
 }
 
 TEST(FRIMultiplicativeFalseEarlyStopTest, SimpleTest) {
-    libff::alt_bn128_pp::init_public_params();
+    libff_liop::alt_bn128_pp::init_public_params();
 
-    typedef libff::alt_bn128_Fr FieldT;
+    typedef libff_liop::alt_bn128_Fr FieldT;
 
     /* Common parameters */
     const std::size_t codeword_domain_dim = 12;
@@ -241,7 +241,7 @@ TEST(FRIMultiplicativeFalseEarlyStopTest, SimpleTest) {
 }
 
 TEST(FRITrueRandomTest, SimpleTest) {
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
 
     /* Common parameters */
     const std::size_t codeword_domain_dim = 12;
@@ -258,7 +258,7 @@ TEST(FRITrueRandomTest, SimpleTest) {
 }
 
 TEST(FRIFalseRandomTest, SimpleTest) {
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
 
     /* Common parameters */
     const std::size_t codeword_domain_dim = 12;
@@ -275,9 +275,9 @@ TEST(FRIFalseRandomTest, SimpleTest) {
 }
 
 TEST(FRIMultiplicativeTrueRandomTest, SimpleTest) {
-    libff::alt_bn128_pp::init_public_params();
+    libff_liop::alt_bn128_pp::init_public_params();
 
-    typedef libff::alt_bn128_Fr FieldT;
+    typedef libff_liop::alt_bn128_Fr FieldT;
 
     /* Common parameters */
     const std::size_t codeword_domain_dim = 12;
@@ -294,8 +294,8 @@ TEST(FRIMultiplicativeTrueRandomTest, SimpleTest) {
 }
 
 TEST(FRIMultiplicativeFalseRandomTest, SimpleTest) {
-    libff::alt_bn128_pp::init_public_params();
-    typedef libff::alt_bn128_Fr FieldT;
+    libff_liop::alt_bn128_pp::init_public_params();
+    typedef libff_liop::alt_bn128_Fr FieldT;
 
     /* Common parameters */
     const std::size_t codeword_domain_dim = 12;

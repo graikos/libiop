@@ -2,16 +2,16 @@
 #include <gtest/gtest.h>
 #include <vector>
 
-#include <libff/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
+#include <libff_liop/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
 
-#include <libff/algebra/fields/binary/gf64.hpp>
-#include <libff/common/utils.hpp>
+#include <libff_liop/algebra/fields/binary/gf64.hpp>
+#include <libff_liop/common/utils.hpp>
 #include "libiop/algebra/utils.hpp"
 
 namespace libiop {
 
 TEST(BatchInverseTest, SimpleTest) {
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
 
     const std::size_t sz = 100;
     const std::vector<FieldT> vec = random_vector<FieldT>(sz);
@@ -32,8 +32,8 @@ TEST(BatchInverseTest, SimpleTest) {
 }
 
 TEST(MultiplicativeBatchInverseTest, SimpleTest) {
-    libff::alt_bn128_pp::init_public_params();
-    typedef libff::alt_bn128_Fr FieldT;
+    libff_liop::alt_bn128_pp::init_public_params();
+    typedef libff_liop::alt_bn128_Fr FieldT;
 
     const std::size_t sz = 100;
     std::vector<FieldT> vec = random_vector<FieldT>(sz);

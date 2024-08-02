@@ -31,7 +31,7 @@ struct FRI_snark_parameters {
 
     std::size_t num_oracles_;
 
-    libff::field_type field_type_;
+    libff_liop::field_type field_type_;
 
     void describe();
 };

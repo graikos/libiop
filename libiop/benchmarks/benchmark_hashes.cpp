@@ -1,7 +1,7 @@
 #include <vector>
 #include <benchmark/benchmark.h>
 
-#include <libff/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
+#include <libff_liop/algebra/curves/alt_bn128/alt_bn128_pp.hpp>
 
 #include "libiop/algebra/utils.hpp"
 #include "libiop/bcs/hashing/blake2b.hpp"
@@ -12,8 +12,8 @@ namespace libiop {
 
 static void BM_blake2b(benchmark::State &state)
 {
-    libff::alt_bn128_pp::init_public_params();
-    typedef libff::alt_bn128_Fr FieldT;
+    libff_liop::alt_bn128_pp::init_public_params();
+    typedef libff_liop::alt_bn128_Fr FieldT;
     
     const size_t sz = state.range(0);
 
@@ -34,8 +34,8 @@ BENCHMARK(BM_blake2b)->RangeMultiplier(2)->Range(1, 16)->Unit(benchmark::kNanose
 
 static void BM_Starkware_poseidon(benchmark::State &state)
 {
-    libff::alt_bn128_pp::init_public_params();
-    typedef libff::alt_bn128_Fr FieldT;
+    libff_liop::alt_bn128_pp::init_public_params();
+    typedef libff_liop::alt_bn128_Fr FieldT;
     
     const size_t sz = state.range(0);
 
@@ -58,8 +58,8 @@ BENCHMARK(BM_Starkware_poseidon)->RangeMultiplier(2)->Range(1, 16)->Unit(benchma
 
 static void BM_high_alpha_poseidon(benchmark::State &state)
 {
-    libff::alt_bn128_pp::init_public_params();
-    typedef libff::alt_bn128_Fr FieldT;
+    libff_liop::alt_bn128_pp::init_public_params();
+    typedef libff_liop::alt_bn128_Fr FieldT;
 
     const size_t sz = state.range(0);
 
@@ -82,8 +82,8 @@ BENCHMARK(BM_high_alpha_poseidon)->RangeMultiplier(2)->Range(1, 32)->Unit(benchm
 
 static void BM_high_alpha_poseidon_state_size_4(benchmark::State &state)
 {
-    libff::alt_bn128_pp::init_public_params();
-    typedef libff::alt_bn128_Fr FieldT;
+    libff_liop::alt_bn128_pp::init_public_params();
+    typedef libff_liop::alt_bn128_Fr FieldT;
 
     const size_t sz = state.range(0);
 

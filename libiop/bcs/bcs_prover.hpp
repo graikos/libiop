@@ -10,7 +10,7 @@
 
 #include <set>
 
-#include <libff/common/profiling.hpp>
+#include <libff_liop/common/profiling.hpp>
 #include "libiop/bcs/bcs_common.hpp"
 
 namespace libiop {

@@ -1,5 +1,5 @@
-#include <libff/common/profiling.hpp>
-#include <libff/common/utils.hpp>
+#include <libff_liop/common/profiling.hpp>
+#include <libff_liop/common/utils.hpp>
 #include "libiop/algebra/field_subset/subspace.hpp"
 #include "libiop/bcs/bcs_common.hpp"
 #include "libiop/bcs/hashing/blake2b.hpp"
@@ -9,12 +9,12 @@ namespace libiop {
 template<typename FieldT, typename MT_root_hash>
 void ligero_snark_parameters<FieldT, MT_root_hash>::describe()
 {
-    libff::print_indent(); printf("Interleaved R1CS SNARK parameters:\n");
-    libff::print_indent(); printf("Security level: %zu\n", security_level_);
-    libff::print_indent(); printf("Height/width ratio: %f\n", height_width_ratio_);
-    libff::print_indent(); printf("RS extra dimensions: %zu\n", RS_extra_dimensions_);
-    libff::print_indent(); printf("Zero-knowledge: %d\n", make_zk_);
-    libff::print_indent(); printf("Domain type = %s\n", field_subset_type_names[this->domain_type_]);
+    libff_liop::print_indent(); printf("Interleaved R1CS SNARK parameters:\n");
+    libff_liop::print_indent(); printf("Security level: %zu\n", security_level_);
+    libff_liop::print_indent(); printf("Height/width ratio: %f\n", height_width_ratio_);
+    libff_liop::print_indent(); printf("RS extra dimensions: %zu\n", RS_extra_dimensions_);
+    libff_liop::print_indent(); printf("Zero-knowledge: %d\n", make_zk_);
+    libff_liop::print_indent(); printf("Domain type = %s\n", field_subset_type_names[this->domain_type_]);
 }
 
 template<typename FieldT, typename MT_root_hash>
@@ -43,7 +43,7 @@ ligero_snark_argument<FieldT, MT_root_hash> ligero_snark_prover(
     const r1cs_auxiliary_input<FieldT> &auxiliary_input,
     const ligero_snark_parameters<FieldT, MT_root_hash> &parameters)
 {
-    libff::enter_block("Ligero SNARK prover");
+    libff_liop::enter_block("Ligero SNARK prover");
     const ligero_iop_parameters<FieldT> iop_params =
         obtain_iop_parameters_from_ligero_snark_params<FieldT>(
             parameters,
@@ -61,13 +61,13 @@ ligero_snark_argument<FieldT, MT_root_hash> ligero_snark_prover(
 
     full_protocol.produce_proof(primary_input, auxiliary_input);
 
-    libff::enter_block("Obtain transcript");
+    libff_liop::enter_block("Obtain transcript");
     const ligero_snark_argument<FieldT, MT_root_hash> transcript = IOP.get_transcript();
-    libff::leave_block("Obtain transcript");
+    libff_liop::leave_block("Obtain transcript");
 
     IOP.describe_sizes();
 
-    libff::leave_block("Ligero SNARK prover");
+    libff_liop::leave_block("Ligero SNARK prover");
     return transcript;
 }
 
@@ -77,7 +77,7 @@ bool ligero_snark_verifier(const r1cs_constraint_system<FieldT> &constraint_syst
                            const ligero_snark_argument<FieldT, MT_root_hash> &proof,
                            const ligero_snark_parameters<FieldT, MT_root_hash> &parameters)
 {
-    libff::enter_block("Ligero SNARK verifier");
+    libff_liop::enter_block("Ligero SNARK verifier");
     const ligero_iop_parameters<FieldT> iop_params =
         obtain_iop_parameters_from_ligero_snark_params<FieldT>(
             parameters,
@@ -94,18 +94,18 @@ bool ligero_snark_verifier(const r1cs_constraint_system<FieldT> &constraint_syst
     full_protocol.register_queries();
     IOP.seal_query_registrations();
 
-    libff::enter_block("Check semantic validity of IOP transcript");
+    libff_liop::enter_block("Check semantic validity of IOP transcript");
     const bool IOP_transcript_valid = IOP.transcript_is_valid();
-    libff::leave_block("Check semantic validity of IOP transcript");
+    libff_liop::leave_block("Check semantic validity of IOP transcript");
 
-    libff::enter_block("Check verifier predicate");
+    libff_liop::enter_block("Check verifier predicate");
     const bool full_protocol_accepts = full_protocol.verifier_predicate(primary_input);
-    libff::leave_block("Check verifier predicate");
+    libff_liop::leave_block("Check verifier predicate");
 
-    libff::print_indent(); printf("* IOP transcript valid: %s\n", IOP_transcript_valid ? "true" : "false");
-    libff::print_indent(); printf("* Full protocol decision predicate satisfied: %s\n", full_protocol_accepts ? "true" : "false");
+    libff_liop::print_indent(); printf("* IOP transcript valid: %s\n", IOP_transcript_valid ? "true" : "false");
+    libff_liop::print_indent(); printf("* Full protocol decision predicate satisfied: %s\n", full_protocol_accepts ? "true" : "false");
     const bool decision = IOP_transcript_valid && full_protocol_accepts;
-    libff::leave_block("Ligero SNARK verifier");
+    libff_liop::leave_block("Ligero SNARK verifier");
 
     return decision;
 }

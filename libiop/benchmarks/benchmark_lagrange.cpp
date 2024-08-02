@@ -1,20 +1,20 @@
 #include <vector>
 #include <benchmark/benchmark.h>
 
-#include <libff/algebra/fields/binary/gf64.hpp>
-#include <libff/algebra/curves/edwards/edwards_pp.hpp>
+#include <libff_liop/algebra/fields/binary/gf64.hpp>
+#include <libff_liop/algebra/curves/edwards/edwards_pp.hpp>
 #include "libiop/algebra/lagrange.hpp"
 #include "libiop/algebra/field_subset/subspace.hpp"
-#include <libff/common/utils.hpp>
+#include <libff_liop/common/utils.hpp>
 
 namespace libiop {
 
 static void BM_lagrange_additive(benchmark::State &state)
 {
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
 
     const size_t sz = state.range(0);
-    const size_t log_sz = libff::log2(sz);
+    const size_t log_sz = libff_liop::log2(sz);
 
     const affine_subspace<FieldT> domain =
         affine_subspace<FieldT>::random_affine_subspace(log_sz);
@@ -33,11 +33,11 @@ BENCHMARK(BM_lagrange_additive)->Range(1ull<<4, 1ull<<24)->Unit(benchmark::kMicr
 
 static void BM_lagrange_multiplicative(benchmark::State &state)
 {
-    libff::edwards_pp::init_public_params();
-    typedef libff::edwards_Fr FieldT;
+    libff_liop::edwards_pp::init_public_params();
+    typedef libff_liop::edwards_Fr FieldT;
 
     const size_t sz = state.range(0);
-    const size_t log_sz = libff::log2(sz);
+    const size_t log_sz = libff_liop::log2(sz);
 
     const field_subset<FieldT> domain(1ull << log_sz);
     const FieldT interpolation_point = FieldT::random_element();
@@ -55,10 +55,10 @@ BENCHMARK(BM_lagrange_multiplicative)->Range(1ull<<4, 1ull<<24)->Unit(benchmark:
 
 static void BM_lagrange_additive_cached(benchmark::State &state)
 {
-    typedef libff::gf64 FieldT;
+    typedef libff_liop::gf64 FieldT;
 
     const size_t sz = state.range(0);
-    const size_t log_sz = libff::log2(sz);
+    const size_t log_sz = libff_liop::log2(sz);
 
     const affine_subspace<FieldT> domain =
         affine_subspace<FieldT>::random_affine_subspace(log_sz);
@@ -78,11 +78,11 @@ BENCHMARK(BM_lagrange_additive_cached)->Range(1ull<<4, 1ull<<24)->Unit(benchmark
 
 static void BM_lagrange_multiplicative_cached(benchmark::State &state)
 {
-    libff::edwards_pp::init_public_params();
-    typedef libff::edwards_Fr FieldT;
+    libff_liop::edwards_pp::init_public_params();
+    typedef libff_liop::edwards_Fr FieldT;
 
     const size_t sz = state.range(0);
-    const size_t log_sz = libff::log2(sz);
+    const size_t log_sz = libff_liop::log2(sz);
 
     const field_subset<FieldT> domain(1ull << log_sz);
     lagrange_cache<FieldT> L_cache(domain, false);

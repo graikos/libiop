@@ -33,14 +33,14 @@ bivariate_embedding<FieldT>::bivariate_embedding(const field_subset<FieldT> &H,
             throw std::invalid_argument(
                 "The bivariate embedding isn't implemented for multiplicative cosets, only subgroups");
         }
-        if (libff::is_power_of_2(H1.num_elements()))
+        if (libff_liop::is_power_of_2(H1.num_elements()))
         {
             if (H2.num_elements() % 2 == 0 && H1.num_elements() != 1)
             {
                 throw std::invalid_argument("H1 and H2 are not coprime");
             }
         }
-        else if (libff::is_power_of_2(H2.num_elements()))
+        else if (libff_liop::is_power_of_2(H2.num_elements()))
         {
             if (H1.num_elements() % 2 == 0 && H2.num_elements() != 1)
             {
@@ -161,7 +161,7 @@ public:
         {
             throw std::invalid_argument("evaluation domain type is not the same as bivariate embedding type");
         }
-        libff::enter_block("composed polynomial evaluated contents");
+        libff_liop::enter_block("composed polynomial evaluated contents");
         /** The projection, evaluated over a domain is another algebraically structured domain,
          *  and in most cases of interest is actually smaller than the eval domain.
          *  So we first calculate that potentially smaller domain. */
@@ -172,7 +172,7 @@ public:
         // In this case the projection is a 1 to 1 map, so these evaluations are correct.
         if (projected_domain.num_elements() == eval_domain.num_elements())
         {
-            libff::leave_block("composed polynomial evaluated contents");
+            libff_liop::leave_block("composed polynomial evaluated contents");
             return projected_evals;
         }
         /** Now we have to duplicate these evals according to how they get replicated in eval domain.
@@ -196,7 +196,7 @@ public:
                 }
             }
         }
-        libff::leave_block("composed polynomial evaluated contents");
+        libff_liop::leave_block("composed polynomial evaluated contents");
         return evals;
     }
 
