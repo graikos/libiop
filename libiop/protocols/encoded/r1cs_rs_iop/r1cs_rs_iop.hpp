@@ -12,7 +12,7 @@ RS-encoded Aurora protocol for R1CS
 #include <functional>
 #include <memory>
 #include <vector>
-#include "gtest/gtest_prod.h"
+// #include "gtest/gtest_prod.h"
 
 #include "libiop/iop/iop.hpp"
 #include "libiop/protocols/encoded/lincheck/basic_lincheck.hpp"
@@ -124,8 +124,8 @@ protected:
     void compute_fprime_ABCz_over_codeword_domain(
         std::vector<FieldT> &Az, std::vector<FieldT> &Bz, std::vector<FieldT> &Cz);
     void register_witness_oracles();
-    FRIEND_TEST(TestAdditiveR1CSComponents, R1CSTest);
-    FRIEND_TEST(TestMultiplicativeR1CSComponents, R1CSTest);
+    // FRIEND_TEST(TestAdditiveR1CSComponents, R1CSTest);
+    // FRIEND_TEST(TestMultiplicativeR1CSComponents, R1CSTest);
 
 public:
     /* Initialization and registration */
