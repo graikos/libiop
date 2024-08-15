@@ -259,7 +259,7 @@ std::ostream& serialize_Field_Elem_vec_of_vec_of_vec(
     return out;
 }
 
-std::ostream& serialize_size_t_vec_of_vec(
+inline std::ostream& serialize_size_t_vec_of_vec(
     std::ostream &out, const std::vector<std::vector<size_t>> &v)
 {
     out << v.size();
@@ -278,7 +278,7 @@ std::ostream& serialize_size_t_vec_of_vec(
 }
 
 // TODO: Left off here
-std::istream& deserialize_size_t_vec_of_vec(
+inline std::istream& deserialize_size_t_vec_of_vec(
     std::istream &in, std::vector<std::vector<size_t>> &v)
 {
     size_t size;

@@ -10,7 +10,7 @@
 
 namespace libiop {
 
-pow_parameters::pow_parameters(
+inline pow_parameters::pow_parameters(
     const size_t work_parameter,
     const size_t cost_per_hash) :
     work_parameter_(work_parameter),
@@ -18,7 +18,7 @@ pow_parameters::pow_parameters(
 {
 }
 
-size_t pow_parameters::pow_bitlen() const
+inline size_t pow_parameters::pow_bitlen() const
 {
     // For now we round the hash cost to 1 << floor(libff::log2(cost))
     // This makes the proof of work condition very simple, at the expense of some extra prover work
@@ -33,18 +33,18 @@ size_t pow_parameters::pow_bitlen() const
 
 // For now we don't implement the optimization for non-power-of-2 hash_costs,
 // so this is always set to 0
-size_t pow_parameters::pow_upperbound() const
+inline size_t pow_parameters::pow_upperbound() const
 {
     return 0;
 }
 
-size_t pow_parameters::work_parameter() const
+inline size_t pow_parameters::work_parameter() const
 {
     return this->work_parameter_;
 }
 
 
-void pow_parameters::print() const
+inline void pow_parameters::print() const
 {
     printf("\nProof of work parameters\n");
     libff::print_indent(); printf("* log of target work amount = %zu\n", this->work_parameter_);
@@ -112,7 +112,7 @@ bool pow<FieldT, hash_digest_type>::verify_pow(
 }
 
 // Function to sanity check the PoW's.
-void print_string_in_hex(const std::string& input)
+inline void print_string_in_hex(const std::string& input)
 {
     static const char hex_digits[] = "0123456789ABCDEF";
 
