@@ -121,6 +121,36 @@ FieldT deserialize_FieldT(
     return FieldT(b);
 }
 
+template<typename powtype>
+std::ostream& serialize_POW(
+    std::ostream &out, const powtype &v)
+{
+    out << v.size();
+    out << ",";
+    out.write(v.c_str(), v.size());
+    out << ",";
+    return out;
+}
+
+template<typename powtype>
+powtype deserialize_POW(
+    std::istream &in, powtype &v)
+{
+    char delimiter;
+
+    std::size_t sz;
+    in >> sz;
+    in >> delimiter;
+
+    v.resize(sz);
+
+    in.read(&v[0], sz);
+
+    in >> delimiter;
+
+    return v;
+}
+
 template<typename FieldT>
 std::ostream& serialize_Field_Elem_vec(
     std::ostream &out, const std::vector<FieldT> &v)
@@ -130,6 +160,22 @@ std::ostream& serialize_Field_Elem_vec(
     for (size_t i = 0; i < v.size(); i++)
     {
         serialize_FieldT(out, v[i]);
+    }
+    return out;
+}
+
+template<typename FieldT, typename hash_type>
+std::ostream& serialize_Field_Elem_vec_binary_hashtype(
+    std::ostream &out, const std::vector<hash_type> &v)
+{
+    out << v.size();
+    out << ",";
+    for (size_t i = 0; i < v.size(); i++)
+    {
+        out << v[i].size();
+        out << ",";
+        out.write(v[i].c_str(), v[i].size());
+        out << ",";
     }
     return out;
 }
@@ -147,6 +193,33 @@ std::istream& deserialize_Field_Elem_vec(
     {
         FieldT e = deserialize_FieldT<FieldT>(in);
         v.emplace_back(e);
+    }
+    return in;
+}
+
+template<typename FieldT, typename hash_type>
+std::istream& deserialize_Field_Elem_vec_binary_hashtype(
+    std::istream &in, std::vector<hash_type> &v)
+{
+    size_t size;
+    in >> size;
+    char delimiter;
+    in >> delimiter;
+    assert(delimiter == char(','));
+    for (size_t i = 0; i < size; i++)
+    {
+        std::size_t sz;
+        in >> sz;
+        in >> delimiter;
+
+        hash_type res;
+        res.resize(sz);
+
+        in.read(&res[0], sz);
+
+        in >> delimiter;
+
+        v.push_back(res);
     }
     return in;
 }
@@ -201,6 +274,27 @@ std::ostream& serialize_vec_of_MT_proofs(
     return out;
 }
 
+template<typename FieldT, typename hash_type>
+std::ostream& serialize_vec_of_MT_proofs_binary_hashtype(
+    std::ostream &out, const std::vector<merkle_tree_set_membership_proof<hash_type>> &v)
+{
+    out << v.size();
+    out << ",";
+    for (size_t i = 0; i < v.size(); i++)
+    {
+        out << v[i].auxiliary_hashes.size();
+        out << ",";
+        for (size_t j = 0; j < v[i].auxiliary_hashes.size(); j++)
+        {
+            out << v[i].auxiliary_hashes[j].size();
+            out << ",";
+            out.write(v[i].auxiliary_hashes[j].c_str(), v[i].auxiliary_hashes[j].size());
+            out << ",";
+        }
+    }
+    return out;
+}
+
 template<typename FieldT>
 std::istream& deserialize_vec_of_MT_proofs(
     std::istream &in, std::vector<merkle_tree_set_membership_proof<FieldT>> &v)
@@ -224,6 +318,45 @@ std::istream& deserialize_vec_of_MT_proofs(
         merkle_tree_set_membership_proof<FieldT> prf;
         prf.auxiliary_hashes = auxiliary_hashes;
         v.emplace_back(prf);
+    }
+    return in;
+}
+
+template<typename FieldT, typename hash_type>
+std::istream& deserialize_vec_of_MT_proofs_binary_hashtype(
+    std::istream &in, std::vector<merkle_tree_set_membership_proof<hash_type>> &v)
+{
+    size_t size;
+    in >> size;
+    char delimiter;
+    in >> delimiter;
+    assert(delimiter == char(','));
+    for (size_t i = 0; i < size; i++)
+    {
+        size_t aux_hash_size;
+        in >> aux_hash_size;
+        in >> delimiter;
+        assert(delimiter == char(','));
+        std::vector<hash_type> auxiliary_hashes;
+        for (size_t j = 0; j < aux_hash_size; j++)
+        {
+            std::size_t sz;
+            in >> sz;
+            
+            in >> delimiter;
+
+            hash_type res;
+            res.resize(sz);
+
+            in.read(&res[0], sz);
+
+            in >> delimiter;
+
+            auxiliary_hashes.push_back(res);
+        }
+        merkle_tree_set_membership_proof<hash_type> prf;
+        prf.auxiliary_hashes = auxiliary_hashes;
+        v.push_back(prf);
     }
     return in;
 }
@@ -363,7 +496,23 @@ std::ostream& serialize_transcript_internal(
     typename libff::enable_if<!std::is_same<MT_hash_type, FieldT>::value, FieldT>::type,
     std::ostream &out, const bcs_transformation_transcript<FieldT, MT_hash_type> &t)
 {
-    printf("Serializing on binary fields or non-algebraic hashes is not implemented\n");
+    // printf("Serializing on binary fields or non-algebraic hashes is not implemented\n");
+    // here, I (graikos) have modified the binary field classes to work with big int,
+    // meaning serialization would also work. I had to also add PoW serialization.
+    serialize_Field_Elem_vec_of_vec<FieldT>(out, t.prover_messages_);
+    out << "\n";
+    serialize_Field_Elem_vec_binary_hashtype<FieldT, MT_hash_type>(out, t.MT_roots_);
+    out << "\n";
+    serialize_size_t_vec_of_vec(out, t.query_positions_);
+    out << "\n";
+    serialize_Field_Elem_vec_of_vec_of_vec(out, t.query_responses_);
+    out << "\n";
+    serialize_size_t_vec_of_vec(out, t.MT_leaf_positions_);
+    out << "\n";
+    serialize_vec_of_MT_proofs_binary_hashtype<FieldT, MT_hash_type>(out, t.MT_set_membership_proofs_);
+    out << "\n";
+    serialize_POW<MT_hash_type>(out, t.proof_of_work_);
+    out << "\n";
     return out;
 }
 
@@ -373,7 +522,29 @@ std::istream& deserialize_transcript_internal(
     typename libff::enable_if<!std::is_same<MT_hash_type, FieldT>::value, FieldT>::type,
     std::istream &in, bcs_transformation_transcript<FieldT, MT_hash_type> &t)
 {
-    printf("Deserializing on binary fields or non-algebraic hashes is not implemented\n");
+    // printf("Deserializing on binary fields or non-algebraic hashes is not implemented\n");
+    char delimiter;
+    deserialize_Field_Elem_vec_of_vec<FieldT>(in, t.prover_messages_);
+    in.get(delimiter);
+    assert(delimiter == '\n');
+    deserialize_Field_Elem_vec_binary_hashtype<FieldT, MT_hash_type>(in, t.MT_roots_);
+    in.get(delimiter);
+    assert(delimiter == '\n');
+    deserialize_size_t_vec_of_vec(in, t.query_positions_);
+    in.get(delimiter);
+    assert(delimiter == '\n');
+    deserialize_Field_Elem_vec_of_vec_of_vec(in, t.query_responses_);
+    in.get(delimiter);
+    assert(delimiter == '\n');
+    deserialize_size_t_vec_of_vec(in, t.MT_leaf_positions_);
+    in.get(delimiter);
+    assert(delimiter == '\n');
+    deserialize_vec_of_MT_proofs_binary_hashtype<FieldT, MT_hash_type>(in, t.MT_set_membership_proofs_);
+    in.get(delimiter);
+    assert(delimiter == '\n');
+    deserialize_POW<MT_hash_type>(in, t.proof_of_work_);
+    in.get(delimiter);
+    assert(delimiter == '\n');
     return in;
 }
 
